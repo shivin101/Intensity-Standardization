@@ -1,4 +1,4 @@
-data = load('Subject_02_dn.mat');
+data = load('Subject_03_dn.mat');
 img_layers = data.manualLayer1new;
 img = data.images_dn2;
 img_delta = zeros(1,size(img,2),size(img,3));
@@ -20,15 +20,7 @@ end
 
 test_im = img(:,:,10);
 nn_test = seg_roi{10}{1};
-
-[or_im,or_layer] = unflatten(test_im,img_layers(:,:,10),img_delta(:,:,10));
-figure;
-imshow(uint8(or_im));
-hold on;
-plot(1:size(test_im,2),or_layer);
-a = input('continue');
-
-
+[or_im,or_layer] = unflatten(test_im,)
 test_layer = round(nn(img_new,nn_test,img_layers(:,:,1:9)));
 
 new_img = zeros(size(test_im)); 
@@ -36,8 +28,7 @@ new_img = zeros(size(test_im));
 figure ;
 imshow(uint8(test_im));
 hold on;
-plot(1:size(test_im,2),test_layer);
-
+plot(1:800,test_layer);
 
 test_seg = layers(test_im,test_layer);
 for i=1:size(test_seg,2)
@@ -51,4 +42,4 @@ end
 figure;
 imshow(uint8(new_img));
 hold on
-%plot(1:size(test_im,2),test_layer);
+%plot(1:800,test_layer);
