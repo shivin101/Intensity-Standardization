@@ -2,15 +2,15 @@ clc
 close all
 clear all
 
-% inpdir='../testing/';
-% file=dir([inpdir '*.jpg']);
-file = '../testing/im1.jpg'
+% inpdir='/home/karthik/Testing/Miccai_15_challenge/training/cirrus_2/scan/';
+% file=dir([inpdir '*.dcm']);
+path = '../testing/im1.jpg';
+img = imread(path);
 % img=dicomread([inpdir file.name]);
-img = imread(file);
 data=squeeze(img);
 sizeofimg=size(data);
 %     img=im2double(data(:,:,110));
-
+% 
 %     img(1:200,1:sizeofimg(2))=img(101:300,1:sizeofimg(2));
 %initialize constants
 % % 
@@ -18,7 +18,7 @@ sizeofimg=size(data);
 % 
 %     img = imadjust(img,stretchlim(img),[]);
     % resize image: 1st value set to 'true'& second value to be the scale.
-    param.isResize = [false 0.5];
+    param.isResize = [true 1];
     
     % constants for smothing the images.
     param.filter0Params = [5 5 1];
@@ -78,7 +78,7 @@ end
     imagesc(img);
     axis image; colormap('gray'); hold on; drawnow;
 
-    layersToPlot = {'ilm' 'isos', 'rpe', 'inlopl' 'nflgcl' 'iplinl' 'oplonl'};
+    layersToPlot = {'ilm' 'isos' 'rpe' 'inlopl' 'nflgcl' 'iplinl' 'oplonl'};
      a=zeros(size(img));
     for k = 1:numel(layersToPlot)
 
@@ -87,7 +87,7 @@ end
 
         y=retinalLayers(layerToPlotInd).pathY-1;
         idx1=find(y==0);
-        idx2=find(y>256);
+        idx2=find(y>size(img,2));
         ny=y(max(idx1+1):min(idx2-1));
         x=retinalLayers(layerToPlotInd).pathX;
         nx=x(max(idx1+1):min(idx2-1));
@@ -105,5 +105,9 @@ end
 
     end 
     hold off;
+    
+    for i=1:size(a,2)
+        reslayer(:,i)=find(a(:,i)==1);
+    end
 
     

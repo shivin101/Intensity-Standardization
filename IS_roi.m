@@ -1,9 +1,11 @@
-data = load('Subject_01_dn.mat');
+data = load('Subject_02_dn.mat');
 img_layers = data.manualLayer1new;
 img = data.images_dn2;
 img_delta = zeros(1,size(img,2),size(img,3));
 seg = {};
 seg_roi = {};
+test_im = img(:,:,10);
+test_layer = img_layers(:,:,10);
 
 for i = 1:size(img,3)
     seg{i} = layers(img(:,:,i),img_layers(:,:,i));
@@ -20,7 +22,7 @@ for i=1:9
     img_new(:,:,i)=seg_roi{i}{1};
 end
 
-test_im = img(:,:,10);
+
 test_roi = seg_roi{10}{1};
 
 % [or_im,or_layer] = unflatten(test_im,img_layers(:,:,10),img_delta(:,:,10));
@@ -68,10 +70,14 @@ for i=1:length(idx)
     values = values+weight(i)*per_points;
 end
 stand_test_roi = map_img(test_roi,values);
+stand_test = stand_test_roi+(test_im-test_roi);
 % imshow(uint8(test_roi));
-figure;
-imshow(uint8(stand_test_roi));
+% figure;
+% imshow(uint8(stand_test));
 % figure;
 % imshow(uint8(new_img));
 % hold on
 %plot(1:size(test_im,2),test_layer);
+
+gt_layer = test_layer(1:6,:);
+gt_layer = [gt_layer;test_layer(8,:)];
