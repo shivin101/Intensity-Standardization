@@ -2,22 +2,23 @@ clc
 close all
 clear all
 
-inpdir='/home/karthik/Testing/Miccai_15_challenge/training/cirrus_2/scan/';
-file=dir([inpdir '*.dcm']);
-
-img=dicomread([inpdir file.name]);
+% inpdir='../testing/';
+% file=dir([inpdir '*.jpg']);
+file = '../testing/im1.jpg'
+% img=dicomread([inpdir file.name]);
+img = imread(file);
 data=squeeze(img);
 sizeofimg=size(data);
-    img=im2double(data(:,:,110));
+%     img=im2double(data(:,:,110));
 
-    img(1:200,1:sizeofimg(2))=img(101:300,1:sizeofimg(2));
+%     img(1:200,1:sizeofimg(2))=img(101:300,1:sizeofimg(2));
 %initialize constants
 % % 
 %     img = medfilt2(img,[15 15]);  
 % 
 %     img = imadjust(img,stretchlim(img),[]);
     % resize image: 1st value set to 'true'& second value to be the scale.
-    param.isResize = [true 0.5];
+    param.isResize = [false 0.5];
     
     % constants for smothing the images.
     param.filter0Params = [5 5 1];
@@ -49,7 +50,7 @@ if param.isResize(1)
     img = imresize(img,param.isResize(2),'bilinear');
 end
 
- img = medfilt2(img,[15 15]);  
+%  img = medfilt2(img,[15 15]);  
 
  img = imadjust(img,stretchlim(img),[]);
 %smooth image with specified kernels for denosing
@@ -61,7 +62,7 @@ end
 [param.adjMatrixW, param.adjMatrixMW, param.adjMA, param.adjMB, param.adjMW, param.adjMmW, imgNew] = my_ver_getAdjacencyMatrix(img);
 
 % layers in the order 
-retinalLayerSegmentationOrder = {'initial_guess' 'ilm' 'isos'};% 'rpe' 'inlopl' 'nflgcl' 'iplinl' 'oplonl' };
+retinalLayerSegmentationOrder = {'initial_guess' 'ilm' 'isos' 'rpe' 'inlopl' 'nflgcl' 'iplinl' 'oplonl' };
 
 % segment retinal layers based on the above order
 retinalLayers = [];
@@ -77,7 +78,7 @@ end
     imagesc(img);
     axis image; colormap('gray'); hold on; drawnow;
 
-    layersToPlot = {'ilm' 'isos'};% 'rpe' 'inlopl' 'nflgcl' 'iplinl' 'oplonl'};
+    layersToPlot = {'ilm' 'isos', 'rpe', 'inlopl' 'nflgcl' 'iplinl' 'oplonl'};
      a=zeros(size(img));
     for k = 1:numel(layersToPlot)
 

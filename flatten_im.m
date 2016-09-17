@@ -1,7 +1,7 @@
 function [im2,layers,change] = flatten_im(im,layers)
     %The brightest pixel of each column is taken as the rpe
     rpe = zeros(size(im,2),1);
-    win = 2;
+    win = 4;
     thresh = 10;
 
     for i=1:size(im,2)
@@ -38,9 +38,12 @@ function [im2,layers,change] = flatten_im(im,layers)
     x = 1:size(im,2);
     y=polyval(p,x);
 %     disp(y);
+%     
+%     figure;
 %     imshow(uint8(im));
 %     hold on;
 %     plot(x,y);
+%     pause(1);
     
     y = floor(y);
     lowest = max(y);

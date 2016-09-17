@@ -24,7 +24,7 @@ function values = standardize_learn(img)
         points{i} = find_percentile(hist{i});    
     end
 
-    values = zeros(1,10);
+    values = zeros(1,11);
     
     for i =1:size(hist,2)    
         function_value = find_percentile(hist{i});
